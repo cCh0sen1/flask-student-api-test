@@ -118,7 +118,7 @@ def test_get_students_with_session(student_api):
 
     result = response.json()
 
-    print("\nSession 请求结果：", result)
+    print("\nSession 查询结果：",result,"测试分支")
 
     assert result["code"] == 200
 
