@@ -1,3 +1,0 @@
-session fixture
-function fixture
-执行测试1
