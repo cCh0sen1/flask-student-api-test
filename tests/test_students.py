@@ -77,8 +77,9 @@ def test_update_student(
     student_id = db_student["id"]
 
     response = student_api.update_student(
-    student_id,
-    age
+        student_id,
+        "数据库验证学生",
+        age
 )
     result = response.json()
 
@@ -252,6 +253,7 @@ def test_student_crud_flow(
         # 3. 修改年龄
         update_response = student_api.update_student(
             student_id,
+            "CRUD测试学生",
             25
         )
 

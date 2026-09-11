@@ -23,10 +23,11 @@ class StudentAPI:
             f"{self.base_url}/students/{student_id}"
         )
 
-    def update_student(self, student_id, age):
+    def update_student(self, student_id, name, age):
         return self.session.put(
             f"{self.base_url}/students/{student_id}",
             json={
+                "name": name,
                 "age": age
             }
         )
