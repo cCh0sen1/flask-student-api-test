@@ -177,6 +177,7 @@ def update_student(student_id):
         })
 
     data = request.json
+    name = data["name"]
     age = data["age"]
 
     # 年龄校验
@@ -206,10 +207,10 @@ def update_student(student_id):
             "msg": "学生不存在"
         })
 
-    # 修改年龄
+    # 修改姓名和年龄
     cursor.execute(
-        "UPDATE students SET age = %s WHERE id = %s",
-        (age, student_id)
+        "UPDATE students SET name = %s, age = %s WHERE id = %s",
+        (name, age, student_id)
     )
 
     connection.commit()
@@ -222,7 +223,7 @@ def update_student(student_id):
         "msg": "修改成功",
         "data": {
             "id": student[0],
-            "name": student[1],
+            "name": name,
             "age": age
         }
     })
