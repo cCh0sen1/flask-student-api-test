@@ -23,8 +23,6 @@ jobs:
           MYSQL_DATABASE: test_db
         ports:
           - 3306:3306
-        volumes:
-          - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
         options: >-
           --health-cmd="mysqladmin ping -h localhost -uroot -pking"
           --health-interval=10s
@@ -47,6 +45,10 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
+      
+      - name: Init database
+        run: |
+          mysql -h 127.0.0.1 -uroot -pking test_db < sql/init.sql
 
 
       - name: Start Flask server
