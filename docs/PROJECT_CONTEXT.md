@@ -64,10 +64,8 @@ UPDATE students SET age = %s WHERE id = %s
 
 当前测试框架已经包含 fixture 管理、Token 管理、requests Session、API 封装和数据库验证能力。学生相关测试能够串联接口请求与数据库查询，并在测试结束后清理创建的测试数据。
 
-# 当前待优化事项
+# 当前工程状态与可选优化
 
-1. 完善 API Client 封装，统一请求处理和公共断言。
-2. 完善 Allure HTML 报告的生成与展示流程。
-3. 增加 CI/CD，接入 GitHub Actions 自动执行测试。
-4. 优化测试数据管理，降低用例之间的数据依赖。
-5. 为后续 AI 测试和 Agent 测试方向打基础。
+项目现已接入 GitHub Actions：推送或向 `master` 提交拉取请求时，工作流会启动 MySQL、初始化数据库、启动 Flask 服务并运行 pytest。公共日志入口位于 `common/logger.py`。
+
+后续可按需要完善 API Client 的公共请求处理、Allure HTML 报告的 CI 展示，以及测试数据之间的隔离。
