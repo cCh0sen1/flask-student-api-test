@@ -9,17 +9,15 @@ pipeline {
             }
         }
 
-        stage('Run Test') {
+        stage('Check Directory') {
     steps {
         sh '''
-        docker run --rm \
-        -v $(pwd):/app \
-        -w /app/flask-student-api-test \
-        python:3.12 \
-        bash -c "pip install -r requirements.txt && pytest"
+        pwd
+        ls -la
+        find . -maxdepth 2 -name requirements.txt
         '''
-        }
     }
+}
 
     }
 }
