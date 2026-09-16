@@ -1,4 +1,5 @@
 import pymysql
+import os
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -8,12 +9,13 @@ app = Flask(__name__)
 # MySQL 数据库连接
 # =========================
 def get_db_connection():
+
     return pymysql.connect(
-        host="127.0.0.1",
-        port=3306,
-        user="root",
-        password="king",
-        database="test_db",
+        host=os.getenv("DB_HOST", "127.0.0.1"),
+        port=int(os.getenv("DB_PORT", 3306)),
+        user=os.getenv("DB_USER", "root"),
+        password=os.getenv("DB_PASSWORD", "king"),
+        database=os.getenv("DB_NAME", "test_db"),
         charset="utf8mb4"
     )
 
@@ -324,6 +326,6 @@ def delete_student(student_id):
 # =========================
 if __name__ == "__main__":
     app.run(
-        host="127.0.0.1",
+        host="0.0.0.0",
         port=5000
     )

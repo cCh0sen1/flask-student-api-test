@@ -98,3 +98,63 @@ allure serve report
 - 将请求封装、fixture、数据库工具与服务端代码分层，便于定位失败原因。
 - CI 自动准备数据库和服务后运行同一条 `pytest` 命令，降低本地与 CI 的执行差异。
 - 曾通过 Postman 发现学生修改接口只更新年龄、不更新姓名的问题；修复后验证姓名与年龄均正确更新。完整排查过程见[缺陷分析记录](docs/PROJECT_CONTEXT.md)。
+
+## Docker 部署
+
+### 启动服务
+
+在项目根目录执行：
+
+```bash
+docker compose up
+```
+
+启动后 Flask 服务运行：
+
+```
+http://127.0.0.1:5000
+```
+
+### Docker 环境说明
+
+项目使用 Docker 部署 Flask 服务：
+
+- Flask API 运行在 Docker 容器中；
+- MySQL 数据库运行在宿主机环境；
+- Docker 容器通过 `host.docker.internal` 访问宿主机数据库；
+- pytest 在本地虚拟环境中执行接口自动化测试。
+
+运行流程：
+
+```
+pytest
+  |
+  ↓
+HTTP 接口请求
+  |
+  ↓
+Docker Flask 服务
+  |
+  ↓
+MySQL 数据库
+```
+
+## 测试覆盖范围
+
+当前自动化测试覆盖：
+
+- 登录接口测试
+- 学生信息新增测试
+- 学生信息查询测试
+- 学生信息修改测试
+- 学生信息删除测试
+- 参数化边界测试
+- 数据库结果校验
+- 测试数据自动清理
+
+## 后续优化方向
+
+- 使用 Docker Compose 管理 Flask 与 MySQL 服务
+- 接入 Jenkins / GitHub Actions 完善持续集成流程
+- 自动生成并保存 Allure 测试报告
+- 增加接口异常场景测试

@@ -36,6 +36,8 @@ def test_add_student_age(
 
         assert result["code"] == expected_code
 
+        assert result["code"] == expected_code
+
         if expected_code == 200:
             student_id = result["data"]["id"]
 
