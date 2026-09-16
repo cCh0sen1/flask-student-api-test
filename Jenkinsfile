@@ -3,23 +3,14 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                deleteDir()
-                checkout scm
-            }
-        }
-
-        stage('Run Test') {
+        stage('Test') {
             steps {
                 sh '''
-                ls -la
-
                 docker run --rm \
-                -v ${WORKSPACE}:/app \
+                -v /workspace:/app \
                 -w /app \
                 python:3.12 \
-                bash -c "ls -la && pip install -r requirements.txt && pytest"
+                bash -c "pip install -r requirements.txt && pytest"
                 '''
             }
         }
