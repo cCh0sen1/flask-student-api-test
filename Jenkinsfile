@@ -3,18 +3,14 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/cCh0sen1/flask-student-api-test.git'
-            }
-        }
-
-        stage('Check Directory') {
+        stage('Run Test') {
     steps {
         sh '''
-        pwd
-        ls -la
-        find . -maxdepth 2 -name requirements.txt
+        docker run --rm \
+        -v $(pwd):/app \
+        -w /app \
+        python:3.12 \
+        bash -c "pip install -r requirements.txt && pytest"
         '''
     }
 }
