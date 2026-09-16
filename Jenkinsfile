@@ -3,14 +3,23 @@ pipeline {
 
     stages {
 
+        stage('Verify workspace') {
+            steps {
+                sh '''
+                test -f "$WORKSPACE/requirements.txt"
+                ls -la "$WORKSPACE"
+                '''
+            }
+        }
+
         stage('Test') {
             steps {
                 sh '''
                 docker run --rm \
-                -v /workspace:/app \
-                -w /app \
-                python:3.12 \
-                bash -c "pip install -r requirements.txt && pytest"
+                --volumes-from jenkins \
+                --workdir "$WORKSPACE" \
+                python:3.12-slim \
+                sh -lc "pip install -r requirements.txt && pytest"
                 '''
             }
         }
