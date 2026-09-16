@@ -7,10 +7,10 @@ pipeline {
             steps {
                 sh '''
                 docker run --rm \
-                -v $(pwd):/app \
+                -v ${WORKSPACE}:/app \
                 -w /app \
                 python:3.12 \
-                bash -c "pip install -r requirements.txt && pytest"
+                bash -c "ls -la && pip install -r requirements.txt && pytest"
                 '''
             }
         }
