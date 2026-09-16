@@ -5,7 +5,16 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/cCh0sen1/flask-student-api-test.git'
+                checkout scm
+            }
+        }
+
+        stage('Check') {
+            steps {
+                sh '''
+                pwd
+                ls -la
+                '''
             }
         }
 
@@ -16,7 +25,7 @@ pipeline {
                 -v ${WORKSPACE}:/app \
                 -w /app \
                 python:3.12 \
-                bash -c "ls -la && pip install -r requirements.txt && pytest"
+                bash -c "pip install -r requirements.txt && pytest"
                 '''
             }
         }
