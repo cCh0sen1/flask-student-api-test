@@ -1,10 +1,10 @@
 import requests
 
 
-def test_login_userinfo():
+def test_login_userinfo(base_url):
 
     # 登录
-    login_url = "http://127.0.0.1:5000/login"
+    login_url = f"{base_url}/login"
 
     login_data = {
         "username": "admin",
@@ -28,7 +28,7 @@ def test_login_userinfo():
 
 
     # 查询用户信息
-    userinfo_url = "http://127.0.0.1:5000/userinfo"
+    userinfo_url = f"{base_url}/userinfo"
 
     headers = {
         "Authorization": f"Bearer {token}"

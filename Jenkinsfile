@@ -1,28 +1,41 @@
 pipeline {
     agent any
 
+    options {
+        timestamps()
+    }
+
     stages {
-
-        stage('Verify workspace') {
+        stage('Verify Docker') {
             steps {
                 sh '''
-                test -f "$WORKSPACE/requirements.txt"
-                ls -la "$WORKSPACE"
+                    set -eu
+                    docker version
+                    docker compose version
                 '''
             }
         }
 
-        stage('Test') {
+        stage('Build and Test') {
             steps {
                 sh '''
-                docker run --rm \
-                --volumes-from jenkins \
-                --workdir "$WORKSPACE" \
-                python:3.12-slim \
-                sh -lc "pip install -r requirements.txt && pytest"
+                    set -eu
+                    docker compose -p "student-api-${BUILD_NUMBER}" up \
+                        --build \
+                        --abort-on-container-exit \
+                        --exit-code-from test
                 '''
             }
         }
+    }
 
+    post {
+        always {
+            sh '''
+                docker compose -p "student-api-${BUILD_NUMBER}" down \
+                    --volumes \
+                    --remove-orphans || true
+            '''
+        }
     }
 }
