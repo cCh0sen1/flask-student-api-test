@@ -22,7 +22,6 @@ pipeline {
             steps {
                 sh '''
                     set -eu
-
                     docker compose -p "student-api-${BUILD_NUMBER}" up \
                         --build \
                         --abort-on-container-exit \
@@ -30,15 +29,22 @@ pipeline {
                 '''
             }
         }
+
+        stage('Publish Test Report') {
+            steps {
+                sh '''
+                    set -eu
+                    docker compose -p "student-api-${BUILD_NUMBER}" cp \
+                        test:/app/test-result.xml test-result.xml
+                '''
+                junit 'test-result.xml'
+            }
+        }
     }
 
 
     post {
-
         always {
-
-            junit 'test-result.xml'
-
             sh '''
                 docker compose -p "student-api-${BUILD_NUMBER}" down \
                     --volumes \
