@@ -1,17 +1,13 @@
 services:
 
   mysql:
-    build:
-      context: .
-      dockerfile: Dockerfile.mysql
+  build:
+    context: .
+    dockerfile: Dockerfile.mysql
 
-    ports:
-      - "3307:3306"
-
-    environment:
-      MYSQL_ROOT_PASSWORD: king
-      MYSQL_DATABASE: test_db
-
+  environment:
+    MYSQL_ROOT_PASSWORD: king
+    MYSQL_DATABASE: test_db
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
       interval: 5s
