@@ -1,4 +1,5 @@
 services:
+
   mysql:
     build:
       context: .
@@ -45,8 +46,9 @@ services:
 
 
   test:
-  build: .
-  command: ["pytest", "-v", "--junitxml=test-result.xml"]
+    build: .
+
+    command: ["pytest", "-v", "--junitxml=test-result.xml"]
 
     environment:
       BASE_URL: http://flask:5000
