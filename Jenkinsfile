@@ -6,6 +6,7 @@ pipeline {
     }
 
     stages {
+
         stage('Verify Docker') {
             steps {
                 sh '''
@@ -16,10 +17,12 @@ pipeline {
             }
         }
 
+
         stage('Build and Test') {
             steps {
                 sh '''
                     set -eu
+
                     docker compose -p "student-api-${BUILD_NUMBER}" up \
                         --build \
                         --abort-on-container-exit \
@@ -29,8 +32,13 @@ pipeline {
         }
     }
 
+
     post {
+
         always {
+
+            junit 'test-result.xml'
+
             sh '''
                 docker compose -p "student-api-${BUILD_NUMBER}" down \
                     --volumes \
