@@ -1,8 +1,5 @@
-import requests
-import allure
 import pytest
 
-from db_utils import get_db_connection
 
 @pytest.mark.parametrize(
     "age, expected_code",
@@ -24,17 +21,15 @@ def test_add_student_age(
 
     try:
         response = student_api.add_student(
-    f"测试学生{age}",
-    age
-)
+            f"测试学生{age}",
+            age
+        )
 
         result = response.json()
 
         print(
             f"\n年龄={age}，实际返回={result}"
         )
-
-        assert result["code"] == expected_code
 
         assert result["code"] == expected_code
 
@@ -59,6 +54,7 @@ def test_add_student_age(
                f"删除行数={deleted}"
             )
 
+
 @pytest.mark.parametrize(
     "age, expected_code",
     [
@@ -82,7 +78,7 @@ def test_update_student(
         student_id,
         "数据库验证学生",
         age
-)
+    )
     result = response.json()
 
     print(
@@ -115,6 +111,7 @@ def test_update_student(
         finally:
             cursor.close()
 
+
 def test_get_students_with_session(student_api):
 
     response = student_api.get_students()
@@ -125,14 +122,15 @@ def test_get_students_with_session(student_api):
 
     assert result["code"] == 200
 
+
 def test_add_student_with_session(
     student_api,
     db_connection
 ):
     response = student_api.add_student(
-    "Session测试学生",
-    25
-)
+        "Session测试学生",
+        25
+    )
 
     result = response.json()
 
@@ -168,6 +166,7 @@ def test_add_student_with_session(
 
         db_connection.commit()
         cursor.close()
+
 
 def test_add_then_get_student(
     student_api,

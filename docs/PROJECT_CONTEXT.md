@@ -20,6 +20,7 @@
 - `conftest.py`：集中管理 pytest fixture，包括服务地址、登录 Token、requests Session、API Client、数据库连接和学生测试数据清理。
 - `config.py`：保存测试环境基础配置，目前主要维护本地 API 的 `BASE_URL`。
 - `db_utils.py`：封装 MySQL 数据库连接，为接口结果校验和测试数据清理提供支持。
+- `tests/examples/`：保留 pytest fixture、scope、yield 和参数化基础示例。
 - `report/`：保存 Allure 测试结果数据和相关附件。
 - `README.md`：项目说明及已发现接口缺陷的修复记录。
 
@@ -66,6 +67,6 @@ UPDATE students SET age = %s WHERE id = %s
 
 # 当前工程状态与可选优化
 
-项目现已接入 GitHub Actions：推送或向 `master` 提交拉取请求时，工作流会启动 MySQL、初始化数据库、启动 Flask 服务并运行 pytest。公共日志入口位于 `common/logger.py`。
+项目现已接入 Jenkins Pipeline 和 GitHub Actions。Jenkins 使用 Docker Compose 构建隔离的 MySQL、Flask 与 pytest 环境，发布 JUnit 报告并在结束后清理资源；GitHub Actions 作为推送和 Pull Request 的轻量验证通道。
 
 后续可按需要完善 API Client 的公共请求处理、Allure HTML 报告的 CI 展示，以及测试数据之间的隔离。

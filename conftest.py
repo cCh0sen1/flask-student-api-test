@@ -92,5 +92,3 @@ def db_student(base_url, login_token):
     )
 
     print("清理数据库测试学生：", student_id)
-    
-    return response.json()["data"]
